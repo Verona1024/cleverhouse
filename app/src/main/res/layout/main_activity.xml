@@ -19,6 +19,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/companyText"
         android:id="@+id/textView"
+        android:textColor="@color/black"
         android:layout_gravity="center_horizontal" />
 
     <LinearLayout

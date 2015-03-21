@@ -28,7 +28,7 @@
     <color name="black">#000000</color>
     <color name="windowBackGroung">#CCCCCC</color>
     
-    <string name="companyText">byte harmony - love harmony</string>
+    <string name="companyText">Умный дом - уютный дом.</string>
 
     <string name="main_screen_info">Просмотр</string>
     <string name="main_screen_lights">Свет</string>

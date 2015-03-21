@@ -53,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Lights.class);
                 startActivity(intent);
+                MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
         imageButtonInformation.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Information.class);
                 startActivity(intent);
+                MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -78,7 +80,6 @@ public class MainActivity extends ActionBarActivity {
         IntentFilter intentFilter1 = new IntentFilter(BROADCAST_ACTION_WIDGET);
         registerReceiver(new WidgetBroadcastReceiver(), intentFilter1);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
