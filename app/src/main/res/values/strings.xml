@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Мой Дом</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_about_us">О нас</string>
+
+    <string name="widget_name">Мой Дом</string>
+    <string name="widget_text">Text in widget</string>
+
+    <string name="house_temperature">Температура:</string>
+    <string name="house_light">Свет:</string>
+    <string name="wetness">Влажность:</string>
+
+    <string name="no_data">нет данных</string>
+    <string name="on">включено</string>
+    <string name="off">выключено</string>
+
+    <string name="gradus">°C</string>
+    <string name="faringate">°F</string>
+
+    <string name="percent">%</string>
+
+    <color name="primary">#056F00</color>
+    <color name="primary_dark">#0D5302</color>
+    <color name="accent">#220099</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="windowBackGroung">#CCCCCC</color>
+    
+    <string name="companyText">byte harmony - love harmony</string>
+
+    <string name="main_screen_info">Просмотр</string>
+    <string name="main_screen_lights">Свет</string>
+    <string name="main_screen_music">Музыка</string>
+    <string name="main_screen_statistic">Статистика</string>
+    <string name="main_screen_plans">Комфорт</string>
+    <string name="main_screen_security">Охрана</string>
+
+</resources>
