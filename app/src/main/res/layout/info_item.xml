@@ -8,21 +8,101 @@
     android:layout_margin="10dp">
 
     <!-- A CardView that contains a TextView -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:textColor="@color/black"
+        android:id="@+id/textViewInformationName" />
+
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
+        android:layout_marginTop="3dp"
         android:layout_gravity="center"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:background="@color/accent_material_dark"
-        card_view:cardCornerRadius="6dp">
+        card_view:cardCornerRadius="4dp">
 
-        <TextView
-            android:id="@+id/info_text_bla"
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="bla"/>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/textViewInformationItemDoors"
+                android:textColor="@color/accent_material_light"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/accent_material_light"
+                android:text="Large Text"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/textViewInformationItemWindows"
+                android:layout_below="@+id/textViewInformationItemDoors"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/textViewInformationItemBalcon"
+                android:textColor="@color/accent_material_light"
+                android:layout_below="@+id/textViewInformationItemWindows"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="Large Text"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="3dp"
+                android:id="@+id/textViewInformationItemTemperature"
+                android:textColor="@color/primary"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Large Text"
+                android:layout_marginRight="10dp"
+                android:id="@+id/textViewInformationItemwetnes"
+                android:textColor="@color/primary_dark"
+                android:layout_below="@+id/textViewInformationItemTemperature"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textViewInformationItemLights"
+                android:textColor="@color/accent_material_light"
+                android:layout_below="@+id/textViewInformationItemBalcon"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

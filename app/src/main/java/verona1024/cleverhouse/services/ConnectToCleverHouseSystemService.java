@@ -2,14 +2,14 @@ package verona1024.cleverhouse.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import verona1024.cleverhouse.activitys.MainActivity;
+import verona1024.cleverhouse.database.CommonDBHelper;
 import verona1024.cleverhouse.widget.CleverHouseWidget;
 
 /**
@@ -19,11 +19,15 @@ public class ConnectToCleverHouseSystemService extends Service {
 
     private ExecutorService executorService;
     private BinderSubBinder binder;
+    private CommonDBHelper commonDBHelper;
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate() {
         super.onCreate();
         executorService = Executors.newFixedThreadPool(12);
+        commonDBHelper = new CommonDBHelper(this,"CleverHouse",null,1);
+        db = commonDBHelper.getWritableDatabase();
     }
 
     @Override
@@ -43,6 +47,7 @@ public class ConnectToCleverHouseSystemService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+//        commonDBHelper.close();
     }
 
     class RunableSubServise implements Runnable {
@@ -56,11 +61,27 @@ public class ConnectToCleverHouseSystemService extends Service {
         @Override
         public void run() {
 
-            Intent intent2 = new Intent(MainActivity.BROADCAST_ACTION_MAINACTIVITY);
-            intent2.putExtra(MainActivity.RESUME_MESSAGE_NAME,11111111);
-            sendBroadcast(intent2);
+//            Cursor c = db.query("house", null, null, null, null, null, null);
 
-            Log.w("ididid", "" + intent.getIntExtra("id",777));
+//            ContentValues contentValues = new ContentValues();
+//            for (int i = 0 ; i <=12 ; i++){
+//                contentValues.put("name","Комната" + i);
+//                contentValues.put("temperature", i);
+//                contentValues.put("wetness", i);
+//                contentValues.put("lights", i);
+//                contentValues.put("windows", i);
+//                contentValues.put("doors", i);
+//                contentValues.put("balcon", i);
+//
+//                long rowID = db.insert("house", null, contentValues);
+//            }
+
+//            Intent intent2 = new Intent(MainActivity.BROADCAST_ACTION_MAINACTIVITY);
+//            intent2.putExtra(MainActivity.RESUME_MESSAGE_NAME,11111111);
+//            sendBroadcast(intent2);
+            if(intent.hasExtra("all")){
+
+            }
 
             if(intent.hasExtra("id")){
                 Intent intent1 = new Intent(CleverHouseWidget.BROADCAST_ACTION_WIDGET);
@@ -70,7 +91,10 @@ public class ConnectToCleverHouseSystemService extends Service {
                 intent1.putExtra("lights", true);
                 sendBroadcast(intent1);
             }
+//            commonDBHelper.close();
         }
+
+
     }
 
     class BinderSubBinder extends Binder {

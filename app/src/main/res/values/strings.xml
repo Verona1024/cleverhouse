@@ -37,4 +37,14 @@
     <string name="main_screen_plans">Комфорт</string>
     <string name="main_screen_security">Охрана</string>
 
+    <string name="balcon_no">Балкон закрыт</string>
+    <string name="balcon_yes">Балкон открыт</string>
+    <string name="window_no">Окна закрыты</string>
+    <string name="window_yes">Открытых окон: </string>
+    <string name="doors_no">Двери закрыты</string>
+    <string name="doors_yes">Открытых дверей: </string>
+    <string name="lights_no">Свет выключен</string>
+    <string name="lights_yes">Свет включен</string>
+
+
 </resources>

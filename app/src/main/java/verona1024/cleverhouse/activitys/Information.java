@@ -1,6 +1,8 @@
 package verona1024.cleverhouse.activitys;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -12,10 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import verona1024.cleverhouse.database.CommonDBHelper;
+import verona1024.cleverhouse.database.RoomItem;
+
 /**
  * Created by verona1024 on 21.03.15.
  */
 public class Information extends ActionBarActivity {
+
+    private CommonDBHelper commonDBHelper;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +34,38 @@ public class Information extends ActionBarActivity {
 
         ListView listViewInformation = (ListView) findViewById(R.id.listViewInformation);
 
+        commonDBHelper = new CommonDBHelper(getApplicationContext(),"CleverHouse",null,1);
+        db = commonDBHelper.getWritableDatabase();
+
+        Cursor c = db.query("house", null, null, null, null, null, null);
+
+        ArrayList<RoomItem> names = new ArrayList<RoomItem>();
+
+        if (c.moveToFirst()) {
+            do {
+                int nameColIndex = c.getColumnIndex("name");
+                int temperatureColIndex = c.getColumnIndex("temperature");
+                int wetnessColIndex = c.getColumnIndex("wetness");
+                int lightsColIndex = c.getColumnIndex("lights");
+                int doorsColIndex = c.getColumnIndex("doors");
+                int windowsColIndex = c.getColumnIndex("windows");
+                int balconColIndex = c.getColumnIndex("balcon");
+
+                RoomItem item = new RoomItem();
+                item.setName(c.getString(nameColIndex));
+                item.setBalcon(c.getInt(balconColIndex));
+                item.setDoors(c.getInt(doorsColIndex));
+                item.setTemperature(c.getInt(temperatureColIndex));
+                item.setWeatnes(c.getInt(wetnessColIndex));
+                item.setLights(c.getInt(lightsColIndex));
+                item.setWindows(c.getInt(windowsColIndex));
+
+                names.add(item);
+            } while (c.moveToNext());
+        }
+
         //todo: получение из BD
-        String[] names = {"Все", "Кухня", "Зал", "Детская", "Ванна", "Туалет1", "Туалет2"};
+//        String[] names = {"Все", "Кухня", "Зал", "Детская", "Ванна", "Туалет1", "Туалет2"};
 
         InformationArrayAdapter adapter = new InformationArrayAdapter(getApplicationContext(), R.layout.info_item, names);
 
@@ -51,12 +91,12 @@ public class Information extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class InformationArrayAdapter extends ArrayAdapter<String> {
+    private class InformationArrayAdapter extends ArrayAdapter<RoomItem> {
         private Context context;
-        private String[] strings;
+        private ArrayList<RoomItem> strings;
         private int textViewResourceId;
 
-        public InformationArrayAdapter(Context context, int textViewResourceId, String[] strings) {
+        public InformationArrayAdapter(Context context, int textViewResourceId, ArrayList<RoomItem> strings) {
             super(context, textViewResourceId, strings);
             this.context = context;
             this.strings = strings;
@@ -68,23 +108,45 @@ public class Information extends ActionBarActivity {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(textViewResourceId, parent, false);
 
-            TextView switcher = (TextView) rowView.findViewById(R.id.info_text_bla);
+            RoomItem item = strings.get(position);
+//
+            TextView name = (TextView) rowView.findViewById(R.id.textViewInformationName);
+            TextView balcon = (TextView) rowView.findViewById(R.id.textViewInformationItemBalcon);
+            TextView doors = (TextView) rowView.findViewById(R.id.textViewInformationItemDoors);
+            TextView lights = (TextView) rowView.findViewById(R.id.textViewInformationItemLights);
+            TextView temperature = (TextView) rowView.findViewById(R.id.textViewInformationItemTemperature);
+            TextView wetnes = (TextView) rowView.findViewById(R.id.textViewInformationItemwetnes);
+            TextView windows = (TextView) rowView.findViewById(R.id.textViewInformationItemWindows);
 
-            switcher.setText(strings[position]);
+            name.setText(item.getName());
+            temperature.setText("" + item.getTemperature() + " " + getApplicationContext().getString(R.string.gradus));
+            wetnes.setText("" + item.getWeatnes() + " " + getApplicationContext().getString(R.string.percent));
+
+            if(item.getBalcon() != 0){
+                balcon.setText(getApplicationContext().getString(R.string.balcon_yes));
+            } else {
+                balcon.setText(getApplicationContext().getString(R.string.balcon_no));
+            }
+
+            if(item.getDoors() != 0){
+                doors.setText(getApplicationContext().getString(R.string.doors_yes) + item.getDoors());
+            } else {
+                doors.setText(getApplicationContext().getString(R.string.doors_no));
+            }
+
+            if(item.getLights() != 0){
+                lights.setText(getApplicationContext().getString(R.string.lights_yes));
+            } else {
+                lights.setText(getApplicationContext().getString(R.string.lights_no));
+            }
+
+            if(item.getWindows() != 0){
+                windows.setText(getApplicationContext().getString(R.string.window_yes) + item.getWindows());
+            } else {
+                windows.setText(getApplicationContext().getString(R.string.window_no));
+            }
 
             return rowView;
-        }
-    }
-
-    private class Item {
-        private String name;
-        private int temperature;
-        private int weatnes;
-
-        public Item(String name, int temperature, int weatnes){
-            this.name = name;
-            this.temperature = temperature;
-            this.weatnes = weatnes;
         }
     }
 
