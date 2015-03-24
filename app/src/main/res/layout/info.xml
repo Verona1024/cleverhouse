@@ -14,5 +14,6 @@
         android:id="@+id/listViewInformation"
         android:layout_gravity="center_horizontal"
         android:divider="@null"
-        android:clickable="false"/>
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"/>
 </LinearLayout>

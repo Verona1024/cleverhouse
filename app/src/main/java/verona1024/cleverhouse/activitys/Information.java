@@ -1,8 +1,6 @@
 package verona1024.cleverhouse.activitys;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -20,12 +18,11 @@ import verona1024.cleverhouse.database.CommonDBHelper;
 import verona1024.cleverhouse.database.RoomItem;
 
 /**
- * Created by verona1024 on 21.03.15.
+ * Created by verona1024.
  */
 public class Information extends ActionBarActivity {
 
     private CommonDBHelper commonDBHelper;
-    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,40 +30,8 @@ public class Information extends ActionBarActivity {
         setContentView(R.layout.info);
 
         ListView listViewInformation = (ListView) findViewById(R.id.listViewInformation);
-
-        commonDBHelper = new CommonDBHelper(getApplicationContext(),"CleverHouse",null,1);
-        db = commonDBHelper.getWritableDatabase();
-
-        Cursor c = db.query("house", null, null, null, null, null, null);
-
-        ArrayList<RoomItem> names = new ArrayList<RoomItem>();
-
-        if (c.moveToFirst()) {
-            do {
-                int nameColIndex = c.getColumnIndex("name");
-                int temperatureColIndex = c.getColumnIndex("temperature");
-                int wetnessColIndex = c.getColumnIndex("wetness");
-                int lightsColIndex = c.getColumnIndex("lights");
-                int doorsColIndex = c.getColumnIndex("doors");
-                int windowsColIndex = c.getColumnIndex("windows");
-                int balconColIndex = c.getColumnIndex("balcon");
-
-                RoomItem item = new RoomItem();
-                item.setName(c.getString(nameColIndex));
-                item.setBalcon(c.getInt(balconColIndex));
-                item.setDoors(c.getInt(doorsColIndex));
-                item.setTemperature(c.getInt(temperatureColIndex));
-                item.setWeatnes(c.getInt(wetnessColIndex));
-                item.setLights(c.getInt(lightsColIndex));
-                item.setWindows(c.getInt(windowsColIndex));
-
-                names.add(item);
-            } while (c.moveToNext());
-        }
-
-        //todo: получение из BD
-//        String[] names = {"Все", "Кухня", "Зал", "Детская", "Ванна", "Туалет1", "Туалет2"};
-
+        commonDBHelper = CommonDBHelper.getInstance(this);
+        ArrayList<RoomItem> names = commonDBHelper.getListRooms();
         InformationArrayAdapter adapter = new InformationArrayAdapter(getApplicationContext(), R.layout.info_item, names);
 
         listViewInformation.setAdapter(adapter);
@@ -74,16 +39,12 @@ public class Information extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -149,53 +110,4 @@ public class Information extends ActionBarActivity {
             return rowView;
         }
     }
-
-    /**
-     * Класс адаптера наследуется от RecyclerView.Adapter с указанием класса, который будет хранить ссылки на виджеты элемента списка, т.е. класса, имплементирующего ViewHolder. В нашем случае класс объявлен внутри класса адаптера.
-     */
-//    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-//
-//        private List<Record> records;
-//
-//        public RecyclerViewAdapter(List<Record> records) {
-//            this.records = records;
-//        }
-//
-//        /**
-//         * Создание новых View и ViewHolder элемента списка, которые впоследствии могут переиспользоваться.
-//         */
-//        @Override
-//        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item, viewGroup, false);
-//            return new ViewHolder(v);
-//        }
-//
-//        /**
-//         * Заполнение виджетов View данными из элемента списка с номером i
-//         */
-//        @Override
-//        public void onBindViewHolder(ViewHolder viewHolder, int i) {
-//            Record record = records.get(i);
-//            viewHolder.name.setText(record.getName());
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return records.size();
-//        }
-//
-//        /**
-//         * Реализация класса ViewHolder, хранящего ссылки на виджеты.
-//         */
-//        class ViewHolder extends RecyclerView.ViewHolder {
-//            private TextView name;
-//            private ImageView icon;
-//
-//            public ViewHolder(View itemView) {
-//                super(itemView);
-//                name = (TextView) itemView.findViewById(R.id.recyclerViewItemName);
-//                icon = (ImageView) itemView.findViewById(R.id.recyclerViewItemIcon);
-//            }
-//        }
-//    }
 }

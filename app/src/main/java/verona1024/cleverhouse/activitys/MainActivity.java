@@ -1,12 +1,13 @@
 package verona1024.cleverhouse.activitys;
 
-import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,9 @@ import verona1024.cleverhouse.widget.WidgetBroadcastReceiver;
 
 public class MainActivity extends ActionBarActivity {
 
+    ConnectToCleverHouseSystemService mService;
+    boolean mBound = false;
+
     private ImageButton imageButtonLights;
     private ImageButton imageButtonInformation;
     private ImageButton buttonDoors;
@@ -25,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
     private ImageButton buttonWindows;
     private ImageButton buttonAlarms;
 
-    private BroadcastReceiver broadcastReceiver;
+//    private BroadcastReceiver broadcastReceiver;
 
     public final static String BROADCAST_ACTION_MAINACTIVITY = "com.verona1024.cleverhouse.servicebackbroadcast";
     public final static String BROADCAST_ACTION_WIDGET = "com.verona1024.cleverhouse.widgetbroacastaction";
@@ -39,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        Log.w("onCreate","onCreate");
+//        Log.w("onCreate","onCreate");
 
         imageButtonLights = (ImageButton) findViewById(R.id.imageButtonLights);
         imageButtonInformation = (ImageButton) findViewById(R.id.imageButtonInformation);
@@ -65,20 +69,36 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        startService(new Intent(this, ConnectToCleverHouseSystemService.class));
+//        startService(new Intent(this, ConnectToCleverHouseSystemService.class));
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.w("" + RESUME_MESSAGE_NAME, "" + intent.getIntExtra(RESUME_MESSAGE_NAME, 0));
-            }
-        };
+//        broadcastReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                Log.w("" + RESUME_MESSAGE_NAME, "" + intent.getIntExtra(RESUME_MESSAGE_NAME, 0));
+//            }
+//        };
 
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION_MAINACTIVITY);
-        registerReceiver(broadcastReceiver,intentFilter);
+//        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION_MAINACTIVITY);
+//        registerReceiver(broadcastReceiver,intentFilter);
 
         IntentFilter intentFilter1 = new IntentFilter(BROADCAST_ACTION_WIDGET);
         registerReceiver(new WidgetBroadcastReceiver(), intentFilter1);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(getApplicationContext(),ConnectToCleverHouseSystemService.class);
+        bindService(intent,mConnection,Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 
     @Override
@@ -103,7 +123,25 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.w("onDestroy","onDestroy");
-        unregisterReceiver(broadcastReceiver);
+//        Log.w("onDestroy","onDestroy");
+//        unregisterReceiver(broadcastReceiver);
     }
+
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            ConnectToCleverHouseSystemService.LocalBinder binder = (ConnectToCleverHouseSystemService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 }

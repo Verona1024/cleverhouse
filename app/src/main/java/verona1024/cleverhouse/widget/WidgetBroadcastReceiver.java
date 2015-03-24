@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import verona1024.cleverhouse.activitys.R;
@@ -16,7 +15,9 @@ public class WidgetBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.w("broadcastReceiver", "broadcastReceiver");
+//        Log.w("broadcastReceiver", "broadcastReceiver");
+
+//        Toast.makeText(context.getApplicationContext(),"WidgetBroadcastReceiver",Toast.LENGTH_LONG).show();
 
         RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
 
@@ -25,5 +26,9 @@ public class WidgetBroadcastReceiver extends BroadcastReceiver {
         widgetView.setTextViewText(R.id.textWidgetLights, intent.getBooleanExtra("lights", false) ? context.getString(R.string.on) : context.getString(R.string.off));
 
         AppWidgetManager.getInstance(context).updateAppWidget(intent.getIntExtra("id",0), widgetView);
+    }
+
+    public static void setDataToWidget(){
+
     }
 }
