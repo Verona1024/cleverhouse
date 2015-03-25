@@ -73,7 +73,7 @@ public class CleverHouseWidget extends AppWidgetProvider {
 //            widgetServiceBinding = new WidgetServiceBinding(i);
 //            context.getApplicationContext().bindService(intent1, widgetServiceBinding, Context.BIND_AUTO_CREATE);
 
-//            appWidgetManager.updateWidget(context, appWidgetManager, i);
+            updateWidget(context, appWidgetManager, i);
             appWidgetManager.updateAppWidget(i,widgetView);
 
 
