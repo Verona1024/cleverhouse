@@ -1,5 +1,8 @@
 package verona1024.cleverhouse.activitys;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
 
     private ImageButton imageButtonLights;
     private ImageButton imageButtonInformation;
-    private ImageButton buttonDoors;
+    private ImageButton imageButtonSecurity;
     private ImageButton buttonPeople;
     private ImageButton buttonWindows;
     private ImageButton buttonAlarms;
@@ -47,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
         imageButtonLights = (ImageButton) findViewById(R.id.imageButtonLights);
         imageButtonInformation = (ImageButton) findViewById(R.id.imageButtonInformation);
-//        buttonDoors = (ImageButton) findViewById(R.id.buttonDoors);
+        imageButtonSecurity = (ImageButton) findViewById(R.id.imageButtonSecurity);
 //        buttonPeople = (ImageButton) findViewById(R.id.buttonPeople);
 //        buttonWindows = (ImageButton) findViewById(R.id.buttonWindows);
 //        buttonAlarms = (ImageButton) findViewById(R.id.buttonAlarms);
@@ -68,18 +72,29 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
+        imageButtonSecurity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(getApplicationContext())
+                                .setSmallIcon(R.drawable.ic_launcher)
+                                .setContentTitle(getApplication().getString(R.string.app_name))
+                                .setContentText("Охрана");
 
-//        startService(new Intent(this, ConnectToCleverHouseSystemService.class));
+                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
 
-//        broadcastReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                Log.w("" + RESUME_MESSAGE_NAME, "" + intent.getIntExtra(RESUME_MESSAGE_NAME, 0));
-//            }
-//        };
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 
-//        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION_MAINACTIVITY);
-//        registerReceiver(broadcastReceiver,intentFilter);
+                stackBuilder.addParentStack(MainActivity.class);
+
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                int mId = 2;
+                mNotificationManager.notify(mId, mBuilder.build());
+            }
+        });
 
         IntentFilter intentFilter1 = new IntentFilter(BROADCAST_ACTION_WIDGET);
         registerReceiver(new WidgetBroadcastReceiver(), intentFilter1);

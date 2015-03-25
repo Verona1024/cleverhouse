@@ -182,7 +182,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton7"
+                android:id="@+id/imageButtonSecurity"
                 android:src="@drawable/widget_button"
                 android:background="@null"
                 android:scaleType="fitCenter"
