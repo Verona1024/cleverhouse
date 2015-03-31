@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,7 +80,9 @@ public class MainActivity extends ActionBarActivity {
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_launcher)
                                 .setContentTitle(getApplication().getString(R.string.app_name))
-                                .setContentText("Охрана");
+                                .setContentText("Охрана")
+                                .setAutoCancel(true);
+
 
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
 
@@ -146,9 +149,9 @@ public class MainActivity extends ActionBarActivity {
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
+        public void onServiceConnected(ComponentName className, IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
+            Log.w("---------------------","----------------------");
             ConnectToCleverHouseSystemService.LocalBinder binder = (ConnectToCleverHouseSystemService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;

@@ -1,17 +1,35 @@
 package verona1024.cleverhouse.services;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.RemoteViews;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import verona1024.cleverhouse.activitys.R;
 import verona1024.cleverhouse.database.CommonDBHelper;
+import verona1024.cleverhouse.database.WidgetInformation;
 import verona1024.cleverhouse.widget.CleverHouseWidget;
 
 /**
@@ -28,7 +46,7 @@ public class ConnectToCleverHouseSystemService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        executorService = Executors.newFixedThreadPool(12);
+        executorService = Executors.newFixedThreadPool(4);
         commonDBHelper = CommonDBHelper.getInstance(this);
         db = commonDBHelper.getWritableDatabase();
     }
@@ -64,7 +82,8 @@ public class ConnectToCleverHouseSystemService extends Service {
         @Override
         public void run() {
 
-//            todo: get from http
+//            todo: оформить
+
 
             Log.w("intent.hasExtra(\"id\")","" + intent.hasExtra("id"));
 
@@ -111,6 +130,16 @@ public class ConnectToCleverHouseSystemService extends Service {
         sendBroadcast(intent1);
     }
 
+    public void getWidgetInformation (){
+        new RequestTaskWidget().execute(getString(R.string.httpGetStatus));
+    }
+    public void turnLightOn (){
+        new RequestTaskGet().execute(getString(R.string.httpGetLightOn));
+    }
+    public void turnLightOff (){
+        new RequestTaskGet().execute(getString(R.string.httpGetLightOff));
+    }
+
     /**
      * Class used for the client Binder.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with IPC.
@@ -122,9 +151,97 @@ public class ConnectToCleverHouseSystemService extends Service {
         }
     }
 
-//    class BinderSubBinder extends Binder {
-//        ConnectToCleverHouseSystemService getServices() {
-//            return ConnectToCleverHouseSystemService.this;
-//        }
-//    }
+    private class RequestTaskWidget extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response;
+            String responseString = null;
+            try {
+                response = httpclient.execute(new HttpGet(uri[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                    Log.w("doInBackground",responseString);
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (ClientProtocolException e) {
+                //TODO Handle problems..
+            } catch (IOException e) {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.w("result",result);
+
+            WidgetInformation widgetInformation = new WidgetInformation();
+
+            RemoteViews widgetView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
+
+            JSONObject json = new JSONObject();
+            try {
+                json = new JSONObject(result);
+                widgetInformation.setWeatness(json.getInt("wetness"));
+                widgetInformation.setTemperature(json.getInt("temperature"));
+                widgetInformation.setLights(true);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            widgetView.setTextViewText(R.id.textWidgetTemperature, widgetInformation.getTemperature() + " " + getString(R.string.gradus));
+            widgetView.setTextViewText(R.id.textWidgetWetness, widgetInformation.getWeatness() + " " + getString(R.string.percent));
+            widgetView.setTextViewText(R.id.textWidgetLights, widgetInformation.isLights() ? getString(R.string.on) : getString(R.string.off));
+
+
+            ComponentName thisWidget = new ComponentName(getApplicationContext(), CleverHouseWidget.class);
+            AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
+            manager.updateAppWidget(thisWidget, widgetView);
+            Log.w("upadet", "updatet");
+            Log.w("upadet",widgetInformation.getTemperature() + "");
+            //Do anything with response..
+        }
+    }
+
+    private class RequestTaskGet extends AsyncTask<String, Boolean, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response;
+            String responseString = null;
+            try {
+                response = httpclient.execute(new HttpGet(params[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                    Log.w("doInBackground",responseString);
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (ClientProtocolException e) {
+                //TODO Handle problems..
+            } catch (IOException e) {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+    }
+
 }

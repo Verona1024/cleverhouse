@@ -1,13 +1,25 @@
 package verona1024.cleverhouse.database;
 
 /**
- * Created by verona1024 on 23.03.15.
+ * Created by verona1024.
  */
-public enum RoomItemNameId {
+public class RoomItemNameId {
+    private String name;
+    private String id;
 
-    // name
-    NAME,
+    public String getName() {
+        return name;
+    }
 
-    //id
-    ID
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

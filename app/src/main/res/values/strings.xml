@@ -46,5 +46,9 @@
     <string name="lights_no">Свет выключен</string>
     <string name="lights_yes">Свет включен</string>
 
+    <string name="httpGetStatus">http://192.168.1.177/status</string>
+    <string name="httpGetLightOn">http://192.168.1.177/lighton</string>
+    <string name="httpGetLightOff">http://192.168.1.177/lightoff</string>
+
 
 </resources>
