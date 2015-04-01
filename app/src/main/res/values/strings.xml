@@ -4,9 +4,9 @@
     <string name="app_name">Мой Дом</string>
     <string name="action_settings">Настройки</string>
     <string name="action_about_us">О нас</string>
+    <string name="verona">VERONA1024</string>
 
     <string name="widget_name">Мой Дом</string>
-    <string name="widget_text">Text in widget</string>
 
     <string name="house_temperature">Температура:</string>
     <string name="house_light">Свет:</string>
@@ -29,6 +29,8 @@
     <color name="windowBackGroung">#CCCCCC</color>
     
     <string name="companyText">Умный дом - уютный дом.</string>
+    <string name="aboutCompany">Приложение разработато компанией verona1024 ©. Приложение является пультом управления системой \"умный и
+уютный дом\". В случае возникновения вопросов свяжитесь с нами: verona1024corp@gmail.com. \n\n All rights reserved 2015</string>
 
     <string name="main_screen_info">Просмотр</string>
     <string name="main_screen_lights">Свет</string>
@@ -49,6 +51,8 @@
     <string name="httpGetStatus">http://192.168.1.177/status</string>
     <string name="httpGetLightOn">http://192.168.1.177/lighton</string>
     <string name="httpGetLightOff">http://192.168.1.177/lightoff</string>
+
+    <string name="ok">Ок</string>
 
 
 </resources>
