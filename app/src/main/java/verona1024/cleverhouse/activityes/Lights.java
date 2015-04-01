@@ -1,14 +1,17 @@
-package verona1024.cleverhouse.activitys;
+package verona1024.cleverhouse.activityes;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +34,8 @@ public class Lights extends ActionBarActivity {
 
         listViewLights.setAdapter(adapter);
 
+
+
 //        ContextThemeWrapper ctw = ContextThemeWrapper(getActionBar(), R.style.Color1SwitchStyle);
 //        SwitchCompat sc = new SwitchCompat(ctw);
 
@@ -50,9 +55,9 @@ public class Lights extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -79,9 +84,17 @@ public class Lights extends ActionBarActivity {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(textViewResourceId, parent, false);
 
-            TextView switcher = (TextView) rowView.findViewById(R.id.textViewLightsItem);
+            LinearLayout linearLayout = (LinearLayout) rowView.findViewById(R.id.linearLayoutLightsItem);
 
+            ContextThemeWrapper ctw = new ContextThemeWrapper(inflater.getContext(), R.style.SwitchCompatStyle);
+            SwitchCompat sc = new SwitchCompat(ctw);
+            sc.setBackground(null);
+
+
+            TextView switcher = (TextView) rowView.findViewById(R.id.textViewLightsItem);
             switcher.setText(strings[position]);
+
+            linearLayout.addView(sc);
 
             return rowView;
         }

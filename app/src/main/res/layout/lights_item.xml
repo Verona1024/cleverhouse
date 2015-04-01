@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/primary_dark_material_light"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="22dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -20,16 +20,30 @@
         android:id="@+id/textViewLightsItem"
         android:layout_weight="2"/>
 
-    <Switch
+    <LinearLayout
+        android:id="@+id/linearLayoutLightsItem"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:padding="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="22dp"
         android:layout_marginRight="5dp"
-        android:id="@+id/switch1"
         android:gravity="right"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        </LinearLayout>
+
+    <!--<Switch-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text=""-->
+        <!--android:padding="5dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:id="@+id/switch1"-->
+        <!--android:gravity="right"-->
+        <!--android:layout_weight="1"/>-->
+
 
     <!--<android.support.v7.widget.SwitchCompat-->
         <!--android:id="@+id/sampleSwitch"-->

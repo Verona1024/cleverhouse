@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import verona1024.cleverhouse.activitys.R;
+import verona1024.cleverhouse.activityes.R;
 import verona1024.cleverhouse.database.CommonDBHelper;
 import verona1024.cleverhouse.database.WidgetInformation;
 import verona1024.cleverhouse.widget.CleverHouseWidget;

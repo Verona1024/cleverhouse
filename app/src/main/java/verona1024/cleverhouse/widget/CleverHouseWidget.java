@@ -12,8 +12,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import verona1024.cleverhouse.activitys.MainActivity;
-import verona1024.cleverhouse.activitys.R;
+import verona1024.cleverhouse.activityes.MainActivity;
+import verona1024.cleverhouse.activityes.R;
 import verona1024.cleverhouse.services.ConnectToCleverHouseSystemService;
 
 /**

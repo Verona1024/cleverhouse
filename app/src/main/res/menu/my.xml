@@ -1,13 +1,22 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MyActivity">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_tell"
+        android:icon="@drawable/abc_ic_voice_search_api_mtrl_alpha"
+        android:title=""
+        yourapp:showAsAction="always"/>
+    <group>
+        <!--<item android:id="@+id/action_settings"-->
+            <!--android:title="@string/action_settings"-->
+            <!--android:orderInCategory="100"-->
+            <!--yourapp:showAsAction="never" />-->
 
-    <item android:id="@+id/action_about_us"
-        android:title="@string/action_about_us"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+        <item android:id="@+id/action_about_us"
+            android:title="@string/action_about_us"
+            android:orderInCategory="100"
+            yourapp:showAsAction="never" />
+    </group>
 </menu>
+
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--tools:context=".MyActivity"-->

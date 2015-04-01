@@ -1,4 +1,4 @@
-package verona1024.cleverhouse.activitys;
+package verona1024.cleverhouse.activityes;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

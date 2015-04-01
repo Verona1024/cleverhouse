@@ -1,4 +1,4 @@
-package verona1024.cleverhouse.activitys;
+package verona1024.cleverhouse.activityes;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -46,9 +46,9 @@ public class Information extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
